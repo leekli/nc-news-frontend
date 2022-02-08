@@ -7,8 +7,12 @@ const newsApi = axios.create({
 
 // GET Requests
 
-export const getAllArticles = () => {
-  return newsApi.get("/articles").then(({ data }) => {
+export const getAllArticles = (topic, sort_by, order) => {
+  let path = `/articles?limit=100`;
+  if (topic) path += `&topic=${topic}`;
+  if (sort_by) path += `&sort_by=${sort_by}`;
+  if (order) path += `&order=${order}`;
+  return newsApi.get(path).then(({ data }) => {
     return data.articles;
   });
 };
@@ -45,6 +49,34 @@ export const getUserByUsername = (username) => {
 
 // POST Requests
 
+export const postCommentToArticleById = (article_id, newCommentDetail) => {
+  const { author, body } = newCommentDetail;
+  return newsApi
+    .post(`/articles/${article_id}/comments`, {
+      username: author,
+      body: body,
+    })
+    .then(({ data }) => {
+      return data.newComment;
+    });
+};
+
 // PATCH, PUT Requests
+
+export const patchArticleById = (article_id) => {
+  return newsApi
+    .patch(`/articles/${article_id}`, { inc_votes: 1 })
+    .then(({ data }) => {
+      return data.article;
+    });
+};
+
+export const patchCommentById = (comment_id) => {
+  return newsApi
+    .patch(`/comments/${comment_id}`, { inc_votes: 1 })
+    .then(({ data }) => {
+      return data.comment;
+    });
+};
 
 // DELETE Requests

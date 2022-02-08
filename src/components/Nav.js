@@ -1,6 +1,7 @@
 import styles from "../css/Nav.module.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import UserProfile from "./UserProfile";
 
 const Nav = () => {
   return (
@@ -16,6 +17,7 @@ const Nav = () => {
         {" "}
         Users
       </Link>
+      <UserProfile />
     </nav>
   );
 };
