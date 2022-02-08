@@ -6,11 +6,15 @@ const LikeByArticleId = ({ likes, article_id }) => {
   const [likeChange, setLikeChange] = useState(0);
 
   const articleLike = () => {
-    setLikeChange((currChange) => currChange + 1);
-    patchArticleById(article_id).catch((err) => {
-      console.log(err);
-      setLikeChange((currChange) => currChange - 1);
-    });
+    patchArticleById(article_id)
+      .then(() => {
+        setLikeChange((currChange) => currChange + 1);
+        console.log(likeChange);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLikeChange((currChange) => currChange - 1);
+      });
   };
 
   return (
@@ -18,7 +22,7 @@ const LikeByArticleId = ({ likes, article_id }) => {
       onClick={() => articleLike()}
       className={styles.ArticleById__likeButton}
     >
-      👍 Like ({likes + likeChange})
+      👍 Like ({likes})
     </button>
   );
 };

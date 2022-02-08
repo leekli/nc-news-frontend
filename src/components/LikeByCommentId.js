@@ -6,9 +6,9 @@ const LikeByCommentId = ({ likes, comment_id }) => {
   const [likeCommentChange, setLikeCommentChange] = useState(0);
 
   const commentLike = () => {
-    //setLikeCommentChange((currChange) => currChange + 1);
     patchCommentById(comment_id)
       .then(() => {
+        console.log(likeCommentChange);
         setLikeCommentChange((currChange) => currChange + 1);
       })
       .catch((err) => {

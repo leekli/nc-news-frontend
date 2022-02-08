@@ -23,6 +23,12 @@ export const getArticleById = (article_id) => {
   });
 };
 
+export const getArticlesByAuthor = (author) => {
+  return newsApi.get(`/articles?author=${author}`).then(({ data }) => {
+    return data.articles;
+  });
+};
+
 export const getCommentsByArticleId = (article_id) => {
   return newsApi.get(`/articles/${article_id}/comments`).then(({ data }) => {
     return data.comments;
@@ -80,3 +86,15 @@ export const patchCommentById = (comment_id) => {
 };
 
 // DELETE Requests
+
+export const deleteUserCommentById = (comment_id) => {
+  return newsApi.delete(`/comments/${comment_id}`).catch((err) => {
+    console.log(err);
+  });
+};
+
+export const deleteArticleById = (article_id) => {
+  return newsApi.delete(`/articles/${article_id}`).catch((err) => {
+    console.log(err);
+  });
+};

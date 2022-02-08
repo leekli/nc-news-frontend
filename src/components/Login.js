@@ -1,11 +1,19 @@
 import styles from "../css/Login.module.css";
-import { useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../contexts/User";
 import { useNavigate } from "react-router-dom";
+import { getUsers } from "../utils/api";
 
 const Login = () => {
   const [newUsername, setNewUsername] = useState("");
+  const [userList, setUserList] = useState([]);
   const { setLoggedInUser } = useContext(UserContext);
+
+  useEffect(() => {
+    getUsers().then((data) => {
+      setUserList(data);
+    });
+  }, []);
 
   let navigate = useNavigate();
 
@@ -19,9 +27,17 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoggedInUser({ username: newUsername });
-    setNewUsername("");
-    routeChange(`/articles`);
+
+    userList.forEach((eachUser) => {
+      if (eachUser.username === newUsername) {
+        setLoggedInUser({ username: newUsername });
+        setNewUsername("");
+        routeChange(`/articles`);
+      } else {
+        setNewUsername("");
+        routeChange(`/`);
+      }
+    });
   };
 
   return (
@@ -31,7 +47,7 @@ const Login = () => {
         <label htmlFor="Login__textbox">
           <p>Enter your username:</p>
           <p>
-            * For demo purposes: Login using <b>jessjelly</b>
+            * For demo purposes: Please Login using <b>jessjelly</b>
           </p>
           <input
             type="text"

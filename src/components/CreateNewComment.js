@@ -40,6 +40,7 @@ const CreateNewComment = ({ article_id }) => {
             value={newComment}
             onChange={handleCommentChange}
             placeholder="Comment here..."
+            required
           ></input>
           <br></br>
           <button>Submit comment</button>

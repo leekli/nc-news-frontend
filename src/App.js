@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Topics from "./components/Topics";
 import Users from "./components/Users";
 import UserByUsername from "./components/UserByUsername";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/topics" element={<Topics />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/users/:username" element={<UserByUsername />}></Route>
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>
     </BrowserRouter>

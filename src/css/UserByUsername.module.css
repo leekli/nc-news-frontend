@@ -5,3 +5,7 @@
 .UserByUsername__img {
   width: 200px;
 }
+
+.UserByUsername__comments__li {
+  border: 1px solid black;
+}
