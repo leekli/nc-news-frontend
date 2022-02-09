@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import { deleteArticleById } from "../utils/api";
+import "antd/dist/antd.css";
+import { Button } from "antd";
 
 const DeleteArticleByUser = ({ author, article_id }) => {
   const { loggedInUser } = useContext(UserContext);
@@ -14,14 +16,15 @@ const DeleteArticleByUser = ({ author, article_id }) => {
   if (loggedInUser.username === author) {
     return (
       <>
-        <button
+        <Button
           className="deleteButton"
           onClick={() => {
             deleteArticle();
           }}
+          style={{ margain: "auto" }}
         >
           ❌ Delete
-        </button>
+        </Button>
       </>
     );
   } else {

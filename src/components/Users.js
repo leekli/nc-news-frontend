@@ -32,7 +32,14 @@ const Users = () => {
           renderItem={(user) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar size={32} icon={<UserOutlined />} />}
+                avatar={
+                  <Avatar
+                    style={{
+                      backgroundColor: "#031527",
+                    }}
+                    icon={<UserOutlined />}
+                  />
+                }
                 title={user.username}
                 description={
                   <Link key={user.username} to={`/users/${user.username}`}>

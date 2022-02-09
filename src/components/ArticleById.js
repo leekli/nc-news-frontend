@@ -1,7 +1,7 @@
 import styles from "../css/ArticleById.module.css";
 import { getArticleById, getCommentsByArticleId } from "../utils/api";
 import { useParams } from "react-router-dom";
-import { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import LikeByArticleId from "./LikeByArticleId";
 import moment from "moment";
 import LikeByCommentId from "./LikeByCommentId";
@@ -10,6 +10,9 @@ import { UserContext } from "../contexts/User";
 import DeleteCommentByUser from "./DeleteCommentByUser";
 import DeleteArticleByUser from "./DeleteArticleByUser";
 import NotLoggedInError from "./NotLoggedInError";
+import "antd/dist/antd.css";
+import { Comment, Tooltip, Avatar, Button, Card, List } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 const ArticleById = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -33,56 +36,102 @@ const ArticleById = () => {
       isMounted.current = false;
     };
   }, [article_id, comments]);
-
   if (isLoggedIn === true) {
     return (
       <>
-        <div className={styles.ArticlesById__div__article}>
-          <h2>{article.title}</h2>
-          <p>Author: {article.author}</p>
-          <p>Published: {moment(article.created_at).format("MMMM Do YYYY")}</p>
-          <p>💬 Comments: {article.comment_count}</p>
-          <p>Topic: {article.topic}</p>
-          <article>{article.body}</article>
-          <DeleteArticleByUser
-            author={article.author}
-            article_id={article.article_id}
-          />
-          <LikeByArticleId
-            likes={article.votes}
-            ç
-            article_id={article.article_id}
-          />
+        <br></br>
+        <div className="site-card-border-less-wrapper">
+          <Card
+            title={"Article " + article_id}
+            bordered={false}
+            style={{ width: "85%", margin: "auto" }}
+            size="small"
+          >
+            <h2>{article.title}</h2>
+            <List size="small" key="articleList" bordered>
+              <List.Item
+                key="articleList_comments"
+                style={{ fontSize: "x-small" }}
+              >
+                💬 Comments: {article.comment_count}
+              </List.Item>
+              <List.Item
+                key="articleList_authortopic"
+                style={{ fontSize: "x-small" }}
+              >
+                Author: {article.author} | Topic: {article.topic}
+              </List.Item>
+              <List.Item
+                key="articleList_published"
+                style={{ fontSize: "x-small" }}
+              >
+                Published: {moment(article.created_at).format("MMMM Do YYYY")}
+              </List.Item>
+            </List>
+            <br></br>
+            <article>{article.body}</article>
+            <br></br>
+            <DeleteArticleByUser
+              author={article.author}
+              article_id={article.article_id}
+            />
+            <LikeByArticleId
+              likes={article.votes}
+              ç
+              article_id={article.article_id}
+            />
+          </Card>
         </div>
+
         <hr></hr>
         <Expandable>
           <div className={styles.ArticleById__div__comments}>
             <CreateNewComment article_id={article.article_id} />
             <br></br>
-            <h3>Comments</h3>
-            <ul>
+            <h3>All Comments</h3>
+            <ul className={styles.commentList}>
               {comments.map((comment) => {
                 return (
-                  <li
-                    key={comment.comment_id}
-                    className={styles.ArticlesById__comments__li}
-                  >
-                    <p>{comment.body}</p>
-                    <p>id {comment.comment_id}</p>
-                    <p>Author: {comment.author}</p>
-                    <p>
-                      Created: {moment(comment.created_at).format("MMM Do YY")}{" "}
-                      ({moment(comment.created_at).startOf("day").fromNow()})
-                    </p>
-                    <DeleteCommentByUser
-                      comment_id={comment.comment_id}
+                  <>
+                    <Comment
                       author={comment.author}
+                      avatar={
+                        <Avatar
+                          style={{
+                            backgroundColor: "#031527",
+                          }}
+                          icon={<UserOutlined />}
+                        />
+                      }
+                      content={<p>{comment.body}</p>}
+                      style={{ margin: "auto" }}
+                      datetime={
+                        <Tooltip
+                          title={moment(comment.created_at).format("MMM Do YY")}
+                        >
+                          <span style={{ color: "black", margain: "auto" }}>
+                            {moment(comment.created_at).format("MMM Do YY")} (
+                            {moment(comment.created_at)
+                              .startOf("day")
+                              .fromNow()}{" "}
+                            )
+                          </span>
+                          <br></br>
+                          <span style={{ color: "black" }}>
+                            <LikeByCommentId
+                              likes={comment.votes}
+                              comment_id={comment.comment_id}
+                            />
+                            <br></br>
+                            <DeleteCommentByUser
+                              comment_id={comment.comment_id}
+                              author={comment.author}
+                            />
+                          </span>
+                        </Tooltip>
+                      }
                     />
-                    <LikeByCommentId
-                      likes={comment.votes}
-                      comment_id={comment.comment_id}
-                    />
-                  </li>
+                  </>
                 );
               })}
             </ul>
@@ -104,13 +153,13 @@ function Expandable({ children }) {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => {
           setIsOpen((currOpen) => !currOpen);
         }}
       >
         {isOpen ? "Close comments" : "Show all comments"}
-      </button>
+      </Button>
       <br></br>
       <br></br>
       {isOpen ? children : null}

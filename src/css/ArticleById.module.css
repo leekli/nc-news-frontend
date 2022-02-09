@@ -1,3 +1,7 @@
 .ArticleById__header {
   border: 1px solid black;
 }
+
+.commentList {
+  padding: 0px;
+}

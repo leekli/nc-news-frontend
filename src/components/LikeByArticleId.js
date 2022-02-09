@@ -1,6 +1,8 @@
 import styles from "../css/ArticleById.module.css";
 import { useState } from "react";
 import { patchArticleById } from "../utils/api";
+import "antd/dist/antd.css";
+import { Button } from "antd";
 
 const LikeByArticleId = ({ likes, article_id }) => {
   const [likeChange, setLikeChange] = useState(0);
@@ -18,12 +20,13 @@ const LikeByArticleId = ({ likes, article_id }) => {
   };
 
   return (
-    <button
+    <Button
       onClick={() => articleLike()}
       className={styles.ArticleById__likeButton}
+      style={{ margain: "auto" }}
     >
       👍 Like ({likes})
-    </button>
+    </Button>
   );
 };
 

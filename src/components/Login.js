@@ -67,7 +67,7 @@ const Login = () => {
           />
         </label>
         <br></br>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{ marginTop: "4px" }}>
           Log in
         </Button>
       </form>

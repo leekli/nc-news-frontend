@@ -5,6 +5,9 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/User";
 import moment from "moment";
 import NotLoggedInError from "./NotLoggedInError";
+import "antd/dist/antd.css";
+import { List, Card } from "antd";
+import { ReadOutlined } from "@ant-design/icons";
 
 const UserByUsername = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -28,41 +31,50 @@ const UserByUsername = () => {
   if (isLoggedIn === true) {
     return (
       <>
-        <div className={styles.UserByUsername__div__user}>
-          <h2>{user.username}</h2>
-          <img
-            src={user.avatar_url}
-            alt={user.username}
-            className={styles.UserByUsername__img}
-          ></img>
-          <p>{user.name}</p>
+        <div>
+          <Card
+            headStyle={{ backgroundColor: "#F0F2F5" }}
+            bodyStyle={{ backgroundColor: "#F0F2F5" }}
+          >
+            <Card key={user.username} type="inner" title={user.username}>
+              <img
+                src={user.avatar_url}
+                alt={user.username}
+                className={styles.UserByUsername__img}
+              ></img>
+              <br></br>
+              <br></br>
+              <h3>{user.name}</h3>
+            </Card>
+            <br></br>
+          </Card>
         </div>
         <div className={styles.UserByUsername__div__articles}>
-          <br></br>
           <h3>Articles written by {user.username}:</h3>
-          <ul>
-            {articlesByAuthor.map((article) => {
-              return (
-                <Link
-                  key={article.article_id}
-                  to={`/articles/${article.article_id}`}
-                >
-                  <li
-                    key={article.article_id}
-                    className={styles.UserByUsername__comments__li}
-                  >
-                    <h4>{article.title}</h4>
-                    <p>
-                      Published:{" "}
-                      {moment(article.created_at).format("MMMM Do YYYY")}
-                    </p>
-                    <p>💬 Comments: {article.comment_count}</p>
-                    <p>👍 Likes: {article.votes}</p>
-                  </li>
-                </Link>
-              );
-            })}
-          </ul>
+
+          <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={articlesByAuthor}
+            renderItem={(item) => (
+              <List.Item key={item.title}>
+                <List.Item.Meta
+                  avatar={<ReadOutlined />}
+                  title={
+                    <Link
+                      key={item.article_id}
+                      to={`/articles/${item.article_id}`}
+                    >
+                      {item.title}
+                    </Link>
+                  }
+                  description={moment(item.created_at).format("MMMM Do YYYY")}
+                />
+                <p>💬 Comments: {item.comment_count}</p>
+                <p>👍 Likes: {item.votes}</p>
+              </List.Item>
+            )}
+          />
         </div>
       </>
     );

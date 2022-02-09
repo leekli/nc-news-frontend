@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { postCommentToArticleById } from "../utils/api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
+import "antd/dist/antd.css";
+import { Button, Input } from "antd";
 
 const CreateNewComment = ({ article_id }) => {
   const [newComment, setNewComment] = useState("");
   const { loggedInUser } = useContext(UserContext);
+  const { TextArea } = Input;
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
@@ -32,18 +35,19 @@ const CreateNewComment = ({ article_id }) => {
         onSubmit={handleSubmit}
       >
         <form>
-          <label htmlFor="commentBox">Add a comment:</label>
-          <input
-            type="text"
+          <label htmlFor="commentBox"></label>
+          <TextArea
+            showCount
+            maxLength={500}
             id="commentBox"
             name="commentBox"
             value={newComment}
             onChange={handleCommentChange}
-            placeholder="Comment here..."
+            placeholder="Type your comment here..."
             required
-          ></input>
+          />
           <br></br>
-          <button>Submit comment</button>
+          <Button htmlType="submit">Submit comment</Button>
         </form>
       </div>
     </>

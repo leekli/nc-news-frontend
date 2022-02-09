@@ -1,6 +1,8 @@
 import styles from "../css/ArticleById.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { patchCommentById } from "../utils/api";
+import "antd/dist/antd.css";
+import { Button } from "antd";
 
 const LikeByCommentId = ({ likes, comment_id }) => {
   const [likeCommentChange, setLikeCommentChange] = useState(0);
@@ -18,12 +20,13 @@ const LikeByCommentId = ({ likes, comment_id }) => {
   };
 
   return (
-    <button
+    <Button
       onClick={() => commentLike()}
       className={styles.ArticleById__likeButton}
+      size="small"
     >
       👍 Like ({likes})
-    </button>
+    </Button>
   );
 };
 
