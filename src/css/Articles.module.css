@@ -5,3 +5,14 @@
 .Articles__li {
   border: 1px solid black;
 }
+
+.selectBox {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #999;
+  font-size: 12px;
+  color: black;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 2px 2px #ccc;
+}

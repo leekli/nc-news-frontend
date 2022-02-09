@@ -1,12 +1,41 @@
 import { Link } from "react-router-dom";
+import "antd/dist/antd.css";
+import { useContext } from "react";
+import { UserContext } from "../contexts/User";
+import { Alert } from "antd";
 
 const ErrorPage = () => {
-  return (
-    <>
-      <p style={{ textAlign: "center" }}>Page not found</p>
-      <Link to="/">Go to Home </Link>
-    </>
-  );
+  const { isLoggedIn } = useContext(UserContext);
+
+  if (isLoggedIn === true) {
+    return (
+      <>
+        <br></br>
+        <Alert
+          message="Error"
+          description="Uh oh! That page was not found!"
+          type="error"
+          showIcon
+        />
+        <br></br>
+        <Link to="/articles">Click here to go back to the Articles page</Link>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <br></br>
+        <Alert
+          message="Error"
+          description="Uh oh! That page was not found!"
+          type="error"
+          showIcon
+        />
+        <br></br>
+        <Link to="/">Click here to go back to the Login page</Link>
+      </>
+    );
+  }
 };
 
 export default ErrorPage;

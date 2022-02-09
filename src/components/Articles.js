@@ -1,9 +1,14 @@
-import { useEffect, useState, useContext } from "react";
 import styles from "../css/Articles.module.css";
+import React, { useEffect, useState, useContext } from "react";
 import { getAllArticles } from "../utils/api";
 import { Link, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import { UserContext } from "../contexts/User";
+import LoadingSpin from "./LoadingSpin";
+import "antd/dist/antd.css";
+import { List, Space, Input } from "antd";
+import { MessageOutlined, LikeOutlined, ReadOutlined } from "@ant-design/icons";
+import NotLoggedInError from "./NotLoggedInError";
 
 const Articles = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -15,6 +20,8 @@ const Articles = () => {
   const [sortBy, setSortBy] = useState("");
 
   const topic = searchParams.get("topic");
+
+  const { Search } = Input;
 
   const handleOrderByChange = (event) => {
     setOrderBy(event.target.value);
@@ -31,71 +38,105 @@ const Articles = () => {
     });
   }, [topic, sortBy, orderBy]);
 
+  const IconText = ({ icon, text }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
+
   if (isLoggedIn === true) {
     return isLoading ? (
-      <p>...Loading</p>
+      <LoadingSpin />
     ) : (
-      <main className={styles.Articles__main}>
-        <h2 className={styles.Articles__header}>All articles</h2>
-        <p>
-          Sort by:
+      <>
+        <br></br>
+        <Space direction="vertical">
+          <Search
+            placeholder="Search for article..."
+            size="middle"
+            style={{ width: "80vw" }}
+            enterButton
+          />
+        </Space>
+        <br></br>
+        <br></br>
+        <div className="select">
           <select
-            className="orderList"
+            className={styles.selectBox}
             name="sortList"
             id="sortList"
             value={sortBy}
             onChange={handleSortByChange}
           >
             <option value="" disabled defaultValue>
-              Select sort by
+              Sort by:
             </option>
-            <option>created_at</option>
-            <option>comment_count</option>
-            <option>votes</option>
+            <option value="created_at">Published</option>
+            <option value="comment_count">Comment count</option>
+            <option value="votes">Likes</option>
           </select>{" "}
-          Order by:
           <select
-            className="orderList"
+            className={styles.selectBox}
             name="orderList"
             id="orderList"
             value={orderBy}
             onChange={handleOrderByChange}
           >
             <option value="" disabled defaultValue>
-              Select order by
+              Order by:
             </option>
-            <option>asc</option>
-            <option>desc</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
           </select>
-        </p>
-        <ul>
-          {articles.map((article) => {
-            return (
-              <Link
-                key={article.article_id}
-                to={`/articles/${article.article_id}`}
-              >
-                <li key={article.article_id} className={styles.Articles__li}>
-                  <h3>{article.title}</h3>
-                  <p>Author: {article.author}</p>
-                  <p>
-                    Published:{" "}
-                    {moment(article.created_at).format("MMMM Do YYYY")}
-                  </p>
-                  <p>👍 Likes: {article.votes}</p>
-                  <p>💬 Comments: {article.comment_count}</p>
-                </li>
-              </Link>
-            );
-          })}
-        </ul>
-      </main>
+        </div>
+        <List
+          itemLayout="vertical"
+          size="large"
+          pagination={{
+            onChange: (page) => {
+              console.log(page);
+            },
+            pageSize: 10,
+          }}
+          dataSource={articles}
+          renderItem={(item) => (
+            <List.Item
+              key={item.title}
+              actions={[
+                <IconText
+                  icon={LikeOutlined}
+                  text={item.votes}
+                  key="list-vertical-like-o"
+                />,
+                <IconText
+                  icon={MessageOutlined}
+                  text={item.comment_count}
+                  key="list-vertical-message"
+                />,
+              ]}
+            >
+              <List.Item.Meta
+                avatar={<ReadOutlined />}
+                title={
+                  <Link
+                    key={item.article_id}
+                    to={`/articles/${item.article_id}`}
+                  >
+                    {item.title}
+                  </Link>
+                }
+                description={moment(item.created_at).format("MMMM Do YYYY")}
+              />
+            </List.Item>
+          )}
+        />
+      </>
     );
   } else {
     return (
       <>
-        <br></br>
-        <Link to="/">You need to login to access this page</Link>
+        <NotLoggedInError />
       </>
     );
   }

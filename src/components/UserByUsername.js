@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/User";
 import moment from "moment";
+import NotLoggedInError from "./NotLoggedInError";
 
 const UserByUsername = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -68,8 +69,7 @@ const UserByUsername = () => {
   } else {
     return (
       <>
-        <br></br>
-        <Link to="/">You need to login to access this page</Link>
+        <NotLoggedInError />
       </>
     );
   }

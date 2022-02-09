@@ -1,7 +1,7 @@
 import styles from "../css/ArticleById.module.css";
 import { getArticleById, getCommentsByArticleId } from "../utils/api";
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState, useContext, useRef } from "react";
 import LikeByArticleId from "./LikeByArticleId";
 import moment from "moment";
 import LikeByCommentId from "./LikeByCommentId";
@@ -9,15 +9,17 @@ import CreateNewComment from "./CreateNewComment";
 import { UserContext } from "../contexts/User";
 import DeleteCommentByUser from "./DeleteCommentByUser";
 import DeleteArticleByUser from "./DeleteArticleByUser";
+import NotLoggedInError from "./NotLoggedInError";
 
 const ArticleById = () => {
   const { isLoggedIn } = useContext(UserContext);
-
   const { article_id } = useParams();
+  const isMounted = useRef(false);
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
+    isMounted.current = true;
     getArticleById(article_id)
       .then((data) => {
         setArticle(data);
@@ -27,6 +29,9 @@ const ArticleById = () => {
           setComments(data);
         });
       });
+    return () => {
+      isMounted.current = false;
+    };
   }, [article_id, comments]);
 
   if (isLoggedIn === true) {
@@ -88,8 +93,7 @@ const ArticleById = () => {
   } else {
     return (
       <>
-        <br></br>
-        <Link to="/">You need to login to access this page</Link>
+        <NotLoggedInError />
       </>
     );
   }

@@ -1,8 +1,12 @@
-import styles from "../css/Users.module.css";
 import { getUsers } from "../utils/api";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/User";
+import LoadingSpin from "./LoadingSpin";
+import NotLoggedInError from "./NotLoggedInError";
+import "antd/dist/antd.css";
+import { List, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 const Users = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -19,28 +23,32 @@ const Users = () => {
 
   if (isLoggedIn === true) {
     return isLoading ? (
-      <p>...Loading</p>
+      <LoadingSpin />
     ) : (
-      <main>
-        <h2 className={styles.Users__header}>Users</h2>
-        <ul>
-          {users.map((user) => {
-            return (
-              <Link key={user.username} to={`/users/${user.username}`}>
-                <li key={user.username} className={styles.Users__li}>
-                  <h3>{user.username}</h3>
-                </li>
-              </Link>
-            );
-          })}
-        </ul>
-      </main>
+      <>
+        <List
+          itemLayout="horizontal"
+          dataSource={users}
+          renderItem={(user) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar size={32} icon={<UserOutlined />} />}
+                title={user.username}
+                description={
+                  <Link key={user.username} to={`/users/${user.username}`}>
+                    Click for more info on {user.username}
+                  </Link>
+                }
+              />
+            </List.Item>
+          )}
+        />
+      </>
     );
   } else {
     return (
       <>
-        <br></br>
-        <Link to="/">You need to login to access this page</Link>
+        <NotLoggedInError />
       </>
     );
   }

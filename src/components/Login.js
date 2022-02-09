@@ -1,8 +1,10 @@
-import styles from "../css/Login.module.css";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../contexts/User";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../utils/api";
+import "antd/dist/antd.css";
+import { Alert, Button, Input, Tooltip } from "antd";
+import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 
 const Login = () => {
   const [newUsername, setNewUsername] = useState("");
@@ -33,34 +35,41 @@ const Login = () => {
         setLoggedInUser({ username: newUsername });
         setNewUsername("");
         routeChange(`/articles`);
-      } else {
-        setNewUsername("");
-        routeChange(`/`);
       }
     });
   };
 
   return (
     <main>
-      <h2 className={styles.Login__header}>Login</h2>
+      <br></br>
       <form className="Login__form" onSubmit={handleSubmit}>
         <label htmlFor="Login__textbox">
-          <p>Enter your username:</p>
-          <p>
-            * For demo purposes: Please Login using <b>jessjelly</b>
-          </p>
-          <input
-            type="text"
+          <Alert
+            message="Login"
+            description={`For Demo purposes - Please log in as: jessjelly`}
+            type="info"
+            showIcon
+          />
+          <br></br>
+          <Input
             name="Login__textbox"
             id="Login__textbox"
             value={newUsername}
             onChange={handleUsernameChange}
-            placeholder="Enter a username here..."
+            placeholder="Enter your username"
             required
-          ></input>
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            suffix={
+              <Tooltip title="Please enter your username">
+                <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+              </Tooltip>
+            }
+          />
         </label>
         <br></br>
-        <button>Log in</button>
+        <Button type="primary" htmlType="submit">
+          Log in
+        </Button>
       </form>
     </main>
   );

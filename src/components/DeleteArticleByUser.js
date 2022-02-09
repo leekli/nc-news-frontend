@@ -1,4 +1,3 @@
-import styles from "../css/ArticleById.module.css";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import { deleteArticleById } from "../utils/api";
