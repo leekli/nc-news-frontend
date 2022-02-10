@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../contexts/User";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getUsers } from "../utils/api";
 import "antd/dist/antd.css";
 import { Alert, Button, Input, Tooltip } from "antd";
@@ -70,6 +70,11 @@ const Login = () => {
         <Button type="primary" htmlType="submit" style={{ marginTop: "4px" }}>
           Log in
         </Button>
+        <br></br>
+        <br></br>
+        <h4>
+          <Link to="/signup">Click here to register for a new account</Link>
+        </h4>
       </form>
     </main>
   );

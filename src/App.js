@@ -47,7 +47,7 @@ function App() {
                   path="/users/:username"
                   element={<UserByUsername />}
                 ></Route>
-                <Route path="/users/signup" element={<CreateNewUser />}></Route>
+                <Route path="/signup" element={<CreateNewUser />}></Route>
                 <Route path="*" element={<ErrorPage />} />
               </Routes>
             </div>

@@ -5,10 +5,11 @@ import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import "antd/dist/antd.css";
 import { Button, Input } from "antd";
+import NotLoggedInError from "./NotLoggedInError";
 
 const CreateNewComment = ({ article_id }) => {
   const [newComment, setNewComment] = useState("");
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser, isLoggedIn } = useContext(UserContext);
   const { TextArea } = Input;
 
   const handleCommentChange = (event) => {
@@ -28,30 +29,38 @@ const CreateNewComment = ({ article_id }) => {
     });
   };
 
-  return (
-    <>
-      <div
-        className={styles.ArticleById__div__newcomment}
-        onSubmit={handleSubmit}
-      >
-        <form>
-          <label htmlFor="commentBox"></label>
-          <TextArea
-            showCount
-            maxLength={500}
-            id="commentBox"
-            name="commentBox"
-            value={newComment}
-            onChange={handleCommentChange}
-            placeholder="Type your comment here..."
-            required
-          />
-          <br></br>
-          <Button htmlType="submit">Submit comment</Button>
-        </form>
-      </div>
-    </>
-  );
+  if (isLoggedIn === true) {
+    return (
+      <>
+        <div
+          className={styles.ArticleById__div__newcomment}
+          onSubmit={handleSubmit}
+        >
+          <form>
+            <label htmlFor="commentBox"></label>
+            <TextArea
+              showCount
+              maxLength={500}
+              id="commentBox"
+              name="commentBox"
+              value={newComment}
+              onChange={handleCommentChange}
+              placeholder="Type your comment here..."
+              required
+            />
+            <br></br>
+            <Button htmlType="submit">Submit comment</Button>
+          </form>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <NotLoggedInError />
+      </>
+    );
+  }
 };
 
 export default CreateNewComment;

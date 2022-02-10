@@ -37,7 +37,7 @@ const Users = () => {
         <Button
           danger
           onClick={() => {
-            routeChange(`/users/signup`);
+            routeChange(`/signup`);
           }}
         >
           Create a New User
