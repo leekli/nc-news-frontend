@@ -2,27 +2,19 @@
 
 ## Portfolio project - Front End
 
-<br />
-
 ## Built by: Lee Kirkham (2022)
 
 ---
 
-<br />
-
 # Front-End
 
-- **Front-End - Hosted version Link:** xxx
+- **Front-End - Hosted version Link:** https://fe-nc-news-app.netlify.app/
 - **Front-End - Git-Hub Repo Link:** https://github.com/leekli/fe-nc-news
-
-<br />
 
 # Back-End
 
 - **Back-End - Hosted version Link:** https://lee-nc-news.herokuapp.com/api
 - **Back-End - Git-Hub Repo Link:** https://github.com/leekli/nc-news
-
-<br />
 
 # Description
 
