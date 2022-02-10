@@ -67,6 +67,45 @@ export const postCommentToArticleById = (article_id, newCommentDetail) => {
     });
 };
 
+export const postNewUser = (newUserDetail) => {
+  const { username, name, avatar_url } = newUserDetail;
+  return newsApi
+    .post(`/users`, {
+      username: username,
+      name: name,
+      avatar_url: avatar_url,
+    })
+    .then(({ data }) => {
+      return data.user;
+    });
+};
+
+export const postNewTopic = (newTopicDetail) => {
+  const { slug, description } = newTopicDetail;
+  return newsApi
+    .post(`/topics`, {
+      slug: slug,
+      description: description,
+    })
+    .then(({ data }) => {
+      return data.topic;
+    });
+};
+
+export const postNewArticle = (newArticleDetail) => {
+  const { title, topic, author, body } = newArticleDetail;
+  return newsApi
+    .post(`/articles`, {
+      title: title,
+      topic: topic,
+      author: author,
+      body: body,
+    })
+    .then(({ data }) => {
+      return data.article;
+    });
+};
+
 // PATCH, PUT Requests
 
 export const patchArticleById = (article_id) => {

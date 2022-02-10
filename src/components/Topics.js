@@ -4,14 +4,17 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/User";
 import LoadingSpin from "./LoadingSpin";
 import "antd/dist/antd.css";
-import { Card } from "antd";
+import { Card, Button } from "antd";
 import NotLoggedInError from "./NotLoggedInError";
+import { useNavigate } from "react-router-dom";
 
 const Topics = () => {
   const { isLoggedIn } = useContext(UserContext);
 
   const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     getTopics().then((data) => {
@@ -20,14 +23,27 @@ const Topics = () => {
     });
   }, []);
 
+  const routeChange = (path) => {
+    navigate(path);
+  };
+
   if (isLoggedIn === true) {
     return isLoading ? (
       <LoadingSpin />
     ) : (
       <>
+        <br></br>
+        <Button
+          danger
+          onClick={() => {
+            routeChange(`/topics/create`);
+          }}
+        >
+          Create a New Topic
+        </Button>
         <div>
           <Card
-            title="Topic List"
+            title="Topics List: "
             headStyle={{ backgroundColor: "#F0F2F5" }}
             bodyStyle={{ backgroundColor: "#F0F2F5" }}
           >

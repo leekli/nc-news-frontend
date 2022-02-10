@@ -1,6 +1,6 @@
 # **NorthCoders News - Front End 🗞**
 
-## Portfolio project - Front End
+## Portfolio Project - Front End
 
 ## Built by: Lee Kirkham (2022)
 
@@ -21,8 +21,6 @@
 This is a front-end React application which connects to the backend API & database (link above) to aggregate news articles, topics, comments and users.
 
 Built using React.js, and styled with the ['Ant Design'](https://ant.design/) React UI framework.
-
-<br />
 
 # How to run this project locally
 

@@ -11,6 +11,9 @@ import UserByUsername from "./components/UserByUsername";
 import ErrorPage from "./components/ErrorPage";
 import "antd/dist/antd.css";
 import { Layout } from "antd";
+import CreateNewUser from "./components/CreateNewUser";
+import CreateNewTopic from "./components/CreateNewTopic";
+import CreateNewArticle from "./components/CreateNewArticle";
 
 function App() {
   const { Content, Footer } = Layout;
@@ -30,12 +33,21 @@ function App() {
                   path="/articles/:article_id"
                   element={<ArticleById />}
                 ></Route>
+                <Route
+                  path="/articles/create"
+                  element={<CreateNewArticle />}
+                ></Route>
                 <Route path="/topics" element={<Topics />}></Route>
+                <Route
+                  path="/topics/create"
+                  element={<CreateNewTopic />}
+                ></Route>
                 <Route path="/users" element={<Users />}></Route>
                 <Route
                   path="/users/:username"
                   element={<UserByUsername />}
                 ></Route>
+                <Route path="/users/signup" element={<CreateNewUser />}></Route>
                 <Route path="*" element={<ErrorPage />} />
               </Routes>
             </div>

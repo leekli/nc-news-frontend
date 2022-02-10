@@ -6,9 +6,10 @@ import moment from "moment";
 import { UserContext } from "../contexts/User";
 import LoadingSpin from "./LoadingSpin";
 import "antd/dist/antd.css";
-import { List, Space, Input } from "antd";
+import { List, Space, Input, Button } from "antd";
 import { MessageOutlined, LikeOutlined, ReadOutlined } from "@ant-design/icons";
 import NotLoggedInError from "./NotLoggedInError";
+import { useNavigate } from "react-router-dom";
 
 const Articles = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -18,6 +19,8 @@ const Articles = () => {
   const [searchParams] = useSearchParams();
   const [orderBy, setOrderBy] = useState("");
   const [sortBy, setSortBy] = useState("");
+
+  let navigate = useNavigate();
 
   const topic = searchParams.get("topic");
 
@@ -37,6 +40,10 @@ const Articles = () => {
       setIsLoading(false);
     });
   }, [topic, sortBy, orderBy]);
+
+  const routeChange = (path) => {
+    navigate(path);
+  };
 
   const IconText = ({ icon, text }) => (
     <Space>
@@ -89,6 +96,21 @@ const Articles = () => {
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
+        </div>
+        <br></br>
+        <div>
+          <Button
+            danger
+            onClick={() => {
+              routeChange(`/articles/create`);
+            }}
+          >
+            Write a New Article
+          </Button>
+        </div>
+        <br></br>
+        <div>
+          <h2>All articles:</h2>
         </div>
         <List
           itemLayout="vertical"
