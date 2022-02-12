@@ -15,7 +15,7 @@ const Users = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { isLoggedIn } = useContext(UserContext);
-  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
+  const LoggedInCheck = JSON.parse(sessionStorage.getItem("isLoggedIn"));
 
   let navigate = useNavigate();
 
