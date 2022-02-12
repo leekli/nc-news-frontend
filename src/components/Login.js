@@ -38,8 +38,6 @@ const Login = () => {
           setLoggedInUser({ username: newUsername });
           localStorage.setItem("username", JSON.stringify(newUsername));
           localStorage.setItem("isLoggedIn", true);
-          sessionStorage.setItem("username", JSON.stringify(newUsername));
-          sessionStorage.setItem("isLoggedIn", true);
           setNewUsername("");
           routeChange(`/articles`);
         }
