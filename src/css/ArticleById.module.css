@@ -2,6 +2,27 @@
   border: 1px solid black;
 }
 
+.ArticleById__div__comments {
+  max-width: 85%;
+  margin: auto;
+}
+
 .commentList {
   padding: 0px;
+}
+
+.singleArticle__div {
+  max-width: 85%;
+  margin: auto;
+}
+
+.selectBox {
+  width: 40%;
+  height: 30px;
+  border: 1px solid #999;
+  font-size: 12px;
+  color: black;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 2px 2px #ccc;
 }

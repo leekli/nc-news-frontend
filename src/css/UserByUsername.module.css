@@ -2,6 +2,10 @@
   border: 1px solid black;
 }
 
+.UserByUsername__div {
+  max-width: 85%;
+  margin: auto;
+}
 .UserByUsername__img {
   width: 200px;
 }

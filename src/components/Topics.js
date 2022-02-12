@@ -1,3 +1,4 @@
+import styles from "../css/Topics.module.css";
 import { getTopics } from "../utils/api";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -9,10 +10,11 @@ import NotLoggedInError from "./NotLoggedInError";
 import { useNavigate } from "react-router-dom";
 
 const Topics = () => {
-  const { isLoggedIn } = useContext(UserContext);
-
   const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { isLoggedIn } = useContext(UserContext);
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   let navigate = useNavigate();
 
@@ -27,7 +29,7 @@ const Topics = () => {
     navigate(path);
   };
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return isLoading ? (
       <LoadingSpin />
     ) : (
@@ -41,7 +43,7 @@ const Topics = () => {
         >
           Create a New Topic
         </Button>
-        <div>
+        <div className={styles.Topics__div}>
           <Card
             title="Topics List: "
             headStyle={{ backgroundColor: "#F0F2F5" }}
@@ -50,21 +52,25 @@ const Topics = () => {
             {topics.map((topic) => {
               return (
                 <>
-                  <Card
-                    key={topic.slug}
-                    type="inner"
-                    title={topic.slug}
-                    extra={
-                      <Link
-                        key={topic.slug}
-                        to={`/articles?topic=${topic.slug}`}
-                      >
-                        See articles
-                      </Link>
-                    }
-                  >
-                    {topic.description}
-                  </Card>
+                  <li key={topic.slug}>
+                    <Card
+                      type="inner"
+                      id={topic.slug}
+                      key={topic.slug}
+                      value={topic.slug}
+                      title={topic.slug}
+                      extra={
+                        <Link
+                          key={topic.slug}
+                          to={`/articles?topic=${topic.slug}`}
+                        >
+                          See articles
+                        </Link>
+                      }
+                    >
+                      {topic.description}
+                    </Card>
+                  </li>
                   <br></br>
                 </>
               );

@@ -2,6 +2,11 @@
   border: 1px solid black;
 }
 
+.Articles__div {
+  max-width: 85%;
+  margin: auto;
+}
+
 .Articles__li {
   border: 1px solid black;
 }

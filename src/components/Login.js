@@ -30,13 +30,21 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    userList.forEach((eachUser) => {
-      if (eachUser.username === newUsername) {
-        setLoggedInUser({ username: newUsername });
-        setNewUsername("");
-        routeChange(`/articles`);
-      }
-    });
+    const checkUsername = (userList) => userList.username === newUsername;
+
+    if (userList.some(checkUsername) === true) {
+      userList.forEach((eachUser) => {
+        if (eachUser.username === newUsername) {
+          setLoggedInUser({ username: newUsername });
+          localStorage.setItem("username", JSON.stringify(newUsername));
+          localStorage.setItem("isLoggedIn", true);
+          setNewUsername("");
+          routeChange(`/articles`);
+        }
+      });
+    } else {
+      alert("Username does not exist, please try again");
+    }
   };
 
   return (

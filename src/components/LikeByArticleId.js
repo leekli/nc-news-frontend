@@ -1,17 +1,20 @@
 import styles from "../css/ArticleById.module.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { patchArticleById } from "../utils/api";
 import "antd/dist/antd.css";
 import { Button } from "antd";
 
 const LikeByArticleId = ({ likes, article_id }) => {
   const [likeChange, setLikeChange] = useState(0);
+  let btnRef = useRef();
 
   const articleLike = () => {
+    setLikeChange((currChange) => currChange + 1);
     patchArticleById(article_id)
       .then(() => {
-        setLikeChange((currChange) => currChange + 1);
-        console.log(likeChange);
+        if (btnRef.current) {
+          btnRef.current.setAttribute("disabled", "disabled");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -21,11 +24,15 @@ const LikeByArticleId = ({ likes, article_id }) => {
 
   return (
     <Button
-      onClick={() => articleLike()}
+      ref={btnRef}
+      onClick={() => {
+        articleLike();
+      }}
+      id="articleLikeButton"
       className={styles.ArticleById__likeButton}
-      style={{ margain: "auto" }}
+      style={{ margin: "auto" }}
     >
-      👍 Like ({likes})
+      👍 Like ({likes + likeChange})
     </Button>
   );
 };

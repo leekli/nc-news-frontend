@@ -1,7 +1,7 @@
 import styles from "../css/ArticleById.module.css";
 import { getArticleById, getCommentsByArticleId } from "../utils/api";
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import LikeByArticleId from "./LikeByArticleId";
 import moment from "moment";
 import LikeByCommentId from "./LikeByCommentId";
@@ -13,34 +13,44 @@ import NotLoggedInError from "./NotLoggedInError";
 import "antd/dist/antd.css";
 import { Comment, Tooltip, Avatar, Button, Card, List } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import LoadingSpin from "./LoadingSpin";
 
 const ArticleById = () => {
   const { isLoggedIn } = useContext(UserContext);
   const { article_id } = useParams();
-  const isMounted = useRef(false);
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("");
+
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
+
+  const handleSortByChange = (event) => {
+    setSortBy(event.target.value);
+  };
 
   useEffect(() => {
-    isMounted.current = true;
     getArticleById(article_id)
       .then((data) => {
         setArticle(data);
       })
       .then(() => {
-        getCommentsByArticleId(article_id).then((data) => {
+        getCommentsByArticleId(article_id, sortBy).then((data) => {
           setComments(data);
         });
+      })
+      .then(() => {
+        setIsLoading(false);
       });
-    return () => {
-      isMounted.current = false;
-    };
-  }, [article_id, comments]);
-  if (isLoggedIn === true) {
-    return (
+  }, [article_id, sortBy]);
+
+  if (isLoggedIn === true || LoggedInCheck === true) {
+    return isLoading ? (
+      <LoadingSpin />
+    ) : (
       <>
         <br></br>
-        <div className="site-card-border-less-wrapper">
+        <div className={styles.singleArticle__div}>
           <Card
             title={"Article " + article_id}
             bordered={false}
@@ -77,7 +87,6 @@ const ArticleById = () => {
             />
             <LikeByArticleId
               likes={article.votes}
-              ç
               article_id={article.article_id}
             />
           </Card>
@@ -86,54 +95,92 @@ const ArticleById = () => {
         <hr></hr>
         <Expandable>
           <div className={styles.ArticleById__div__comments}>
-            <CreateNewComment article_id={article.article_id} />
+            <CreateNewComment
+              article_id={article.article_id}
+              setComments={setComments}
+            />
             <br></br>
             <h3>All Comments</h3>
+
+            <div className="select">
+              <select
+                className={styles.selectBox}
+                name="sortList"
+                id="sortList"
+                value={sortBy}
+                onChange={handleSortByChange}
+              >
+                <option value="" disabled defaultValue>
+                  Sort comments by:
+                </option>
+                <option value="created_at">Date created (Latest)</option>
+                <option value="votes">Likes (Highest)</option>
+              </select>
+            </div>
+
             <ul className={styles.commentList}>
-              {comments.map((comment) => {
-                return (
-                  <>
-                    <Comment
-                      author={comment.author}
-                      avatar={
-                        <Avatar
-                          style={{
-                            backgroundColor: "#031527",
-                          }}
-                          icon={<UserOutlined />}
-                        />
-                      }
-                      content={<p>{comment.body}</p>}
-                      style={{ margin: "auto" }}
-                      datetime={
-                        <Tooltip
-                          title={moment(comment.created_at).format("MMM Do YY")}
-                        >
-                          <span style={{ color: "black", margain: "auto" }}>
-                            {moment(comment.created_at).format("MMM Do YY")} (
-                            {moment(comment.created_at)
-                              .startOf("day")
-                              .fromNow()}{" "}
-                            )
-                          </span>
-                          <br></br>
-                          <span style={{ color: "black" }}>
-                            <LikeByCommentId
-                              likes={comment.votes}
-                              comment_id={comment.comment_id}
-                            />
-                            <br></br>
-                            <DeleteCommentByUser
-                              comment_id={comment.comment_id}
-                              author={comment.author}
-                            />
-                          </span>
-                        </Tooltip>
-                      }
-                    />
-                  </>
-                );
-              })}
+              <>
+                <List
+                  itemLayout="vertical"
+                  size="large"
+                  pagination={{
+                    pageSize: 10,
+                  }}
+                  dataSource={comments}
+                  renderItem={(comment) => (
+                    <>
+                      <Comment
+                        author={comment.author}
+                        avatar={
+                          <Avatar
+                            style={{
+                              backgroundColor: "#031527",
+                            }}
+                            icon={<UserOutlined />}
+                          />
+                        }
+                        content={<p>{comment.body}</p>}
+                        style={{ margin: "auto" }}
+                        datetime={
+                          <Tooltip
+                            title={moment(comment.created_at).format(
+                              "MMM Do YY"
+                            )}
+                          >
+                            <span style={{ color: "black", margin: "auto" }}>
+                              {moment(comment.created_at).format("MMM Do YY")} (
+                              {moment(comment.created_at)
+                                .startOf("day")
+                                .fromNow()}{" "}
+                              )
+                            </span>
+                          </Tooltip>
+                        }
+                      />
+                      <List.Item
+                        key={comment.comment_id}
+                        style={{ display: "block", margin: "0 auto" }}
+                        extra={
+                          <>
+                            <span style={{ color: "black" }}>
+                              <DeleteCommentByUser
+                                comment_id={comment.comment_id}
+                                author={comment.author}
+                                comments={comments}
+                                setComments={setComments}
+                              />
+                              <LikeByCommentId
+                                likes={comment.votes}
+                                comment_id={comment.comment_id}
+                              />
+                            </span>
+                          </>
+                        }
+                      ></List.Item>
+                    </>
+                  )}
+                />
+              </>
             </ul>
           </div>
         </Expandable>

@@ -1,8 +1,10 @@
 # **NorthCoders News - Front End 🗞**
 
-## Portfolio Project - Front End
+## **Portfolio Project - Front End**
 
-## Built by: Lee Kirkham (2022)
+---
+
+## **Built by:** Lee Kirkham (2022)
 
 ---
 
@@ -22,7 +24,13 @@ This is a front-end React application which connects to the backend API & databa
 
 Built using React.js, and styled with the ['Ant Design'](https://ant.design/) React UI framework.
 
+There is a back-end API version of this app available at: https://lee-nc-news.herokuapp.com/
+
 # How to run this project locally
+
+## Minimum requirements:
+
+- In order to run this project, please ensure you have `Node` installed, at least version v16.x onwards.
 
 ## Clone the repo:
 

@@ -1,3 +1,8 @@
 .Topics__header {
   border: 1px solid black;
 }
+
+.Topics__div {
+  max-width: 85%;
+  margin: auto;
+}

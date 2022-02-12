@@ -10,11 +10,12 @@ import { List, Card } from "antd";
 import { ReadOutlined } from "@ant-design/icons";
 
 const UserByUsername = () => {
-  const { isLoggedIn } = useContext(UserContext);
-
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [articlesByAuthor, setArticlesByAuthor] = useState([]);
+
+  const { isLoggedIn } = useContext(UserContext);
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   useEffect(() => {
     getUserByUsername(username)
@@ -28,10 +29,10 @@ const UserByUsername = () => {
       });
   }, [username]);
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
-        <div>
+        <div className={styles.UserByUsername__div}>
           <Card
             headStyle={{ backgroundColor: "#F0F2F5" }}
             bodyStyle={{ backgroundColor: "#F0F2F5" }}
@@ -49,9 +50,8 @@ const UserByUsername = () => {
             <br></br>
           </Card>
         </div>
-        <div className={styles.UserByUsername__div__articles}>
+        <div className={styles.UserByUsername__div}>
           <h3>Articles written by {user.username}:</h3>
-
           <List
             itemLayout="vertical"
             size="large"

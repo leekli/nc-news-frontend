@@ -1,19 +1,28 @@
-import { useContext } from "react";
-import { UserContext } from "../contexts/User";
 import { deleteArticleById } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Button } from "antd";
 
 const DeleteArticleByUser = ({ author, article_id }) => {
-  const { loggedInUser } = useContext(UserContext);
+  const username = JSON.parse(localStorage.getItem("username"));
 
-  const deleteArticle = () => {
-    deleteArticleById(article_id).catch((err) => {
-      console.log(err);
-    });
+  let navigate = useNavigate();
+
+  const routeChange = (path) => {
+    navigate(path);
   };
 
-  if (loggedInUser.username === author) {
+  const deleteArticle = () => {
+    deleteArticleById(article_id)
+      .then(() => {
+        routeChange(`/articles`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (username === author) {
     return (
       <>
         <Button
@@ -21,7 +30,7 @@ const DeleteArticleByUser = ({ author, article_id }) => {
           onClick={() => {
             deleteArticle();
           }}
-          style={{ margain: "auto" }}
+          style={{ margin: "auto" }}
         >
           ❌ Delete
         </Button>

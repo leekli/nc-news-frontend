@@ -7,20 +7,31 @@ const newsApi = axios.create({
 
 // GET Requests
 
-export const getAllArticles = (topic, sort_by, order) => {
+export const getAllArticles = (topic, sort_by, order, search) => {
   let path = `/articles?limit=100`;
   if (topic) path += `&topic=${topic}`;
   if (sort_by) path += `&sort_by=${sort_by}`;
   if (order) path += `&order=${order}`;
-  return newsApi.get(path).then(({ data }) => {
-    return data.articles;
-  });
+  if (search) path += `&search=${search}`;
+  return newsApi
+    .get(path)
+    .then(({ data }) => {
+      return data.articles;
+    })
+    .catch((err) => {
+      window.location = "/error";
+    });
 };
 
 export const getArticleById = (article_id) => {
-  return newsApi.get(`/articles/${article_id}`).then(({ data }) => {
-    return data.article;
-  });
+  return newsApi
+    .get(`/articles/${article_id}`)
+    .then(({ data }) => {
+      return data.article;
+    })
+    .catch((err) => {
+      window.location = "/error";
+    });
 };
 
 export const getArticlesByAuthor = (author) => {
@@ -29,8 +40,10 @@ export const getArticlesByAuthor = (author) => {
   });
 };
 
-export const getCommentsByArticleId = (article_id) => {
-  return newsApi.get(`/articles/${article_id}/comments`).then(({ data }) => {
+export const getCommentsByArticleId = (article_id, sort_by) => {
+  let path = `/articles/${article_id}/comments`;
+  if (sort_by) path += `?sort_by=${sort_by}`;
+  return newsApi.get(path).then(({ data }) => {
     return data.comments;
   });
 };
@@ -56,11 +69,12 @@ export const getUserByUsername = (username) => {
 // POST Requests
 
 export const postCommentToArticleById = (article_id, newCommentDetail) => {
-  const { author, body } = newCommentDetail;
+  const { author, body, votes } = newCommentDetail;
   return newsApi
     .post(`/articles/${article_id}/comments`, {
       username: author,
       body: body,
+      votes: votes,
     })
     .then(({ data }) => {
       return data.newComment;

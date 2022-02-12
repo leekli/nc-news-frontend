@@ -7,10 +7,13 @@ import "antd/dist/antd.css";
 import { Button, Input } from "antd";
 import NotLoggedInError from "./NotLoggedInError";
 
-const CreateNewComment = ({ article_id }) => {
+const CreateNewComment = ({ article_id, setComments }) => {
   const [newComment, setNewComment] = useState("");
-  const { loggedInUser, isLoggedIn } = useContext(UserContext);
+  const { isLoggedIn } = useContext(UserContext);
   const { TextArea } = Input;
+
+  const username = JSON.parse(localStorage.getItem("username"));
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
@@ -20,39 +23,44 @@ const CreateNewComment = ({ article_id }) => {
     event.preventDefault();
 
     const newCommentDetail = {
-      author: loggedInUser.username,
+      author: username,
       body: newComment,
+      votes: 0,
     };
 
-    postCommentToArticleById(article_id, newCommentDetail).then(() => {
-      setNewComment("");
-    });
+    postCommentToArticleById(article_id, newCommentDetail)
+      .then(() => {
+        setComments((current) => {
+          return [newCommentDetail, ...current];
+        });
+      })
+      .then(() => {
+        setNewComment("");
+      });
   };
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return (
-      <>
-        <div
-          className={styles.ArticleById__div__newcomment}
-          onSubmit={handleSubmit}
-        >
-          <form>
-            <label htmlFor="commentBox"></label>
-            <TextArea
-              showCount
-              maxLength={500}
-              id="commentBox"
-              name="commentBox"
-              value={newComment}
-              onChange={handleCommentChange}
-              placeholder="Type your comment here..."
-              required
-            />
-            <br></br>
-            <Button htmlType="submit">Submit comment</Button>
-          </form>
-        </div>
-      </>
+      <div
+        className={styles.ArticleById__div__newcomment}
+        onSubmit={handleSubmit}
+      >
+        <form>
+          <label htmlFor="commentBox"></label>
+          <TextArea
+            showCount
+            maxLength={500}
+            id="commentBox"
+            name="commentBox"
+            value={newComment}
+            onChange={handleCommentChange}
+            placeholder="Type your comment here..."
+            required
+          />
+          <br></br>
+          <Button htmlType="submit">Submit comment</Button>
+        </form>
+      </div>
     );
   } else {
     return (

@@ -1,3 +1,8 @@
 .Users__header {
   border: 1px solid black;
 }
+
+.Users__div {
+  max-width: 85%;
+  margin: auto;
+}

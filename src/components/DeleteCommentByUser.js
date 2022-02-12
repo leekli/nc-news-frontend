@@ -1,19 +1,26 @@
-import { useContext } from "react";
-import { UserContext } from "../contexts/User";
 import { deleteUserCommentById } from "../utils/api";
 import "antd/dist/antd.css";
 import { Button } from "antd";
 
-const DeleteCommentByUser = ({ author, comment_id }) => {
-  const { loggedInUser } = useContext(UserContext);
+const DeleteCommentByUser = ({ author, comment_id, comments, setComments }) => {
+  const username = JSON.parse(localStorage.getItem("username"));
 
   const deleteComment = () => {
-    deleteUserCommentById(comment_id).catch((err) => {
-      console.log(err);
-    });
+    deleteUserCommentById(comment_id)
+      .then(() => {
+        setComments((oldComments) => {
+          const newComments = oldComments.filter((comment) => {
+            return comment.comment_id !== comment_id;
+          });
+          return newComments;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  if (loggedInUser.username === author) {
+  if (username === author) {
     return (
       <>
         <Button
@@ -22,7 +29,7 @@ const DeleteCommentByUser = ({ author, comment_id }) => {
             deleteComment();
           }}
           size="small"
-          style={{ margain: "auto" }}
+          style={{ margin: "auto" }}
         >
           ❌ Delete
         </Button>

@@ -6,8 +6,9 @@ import { Alert } from "antd";
 
 const ErrorPage = () => {
   const { isLoggedIn } = useContext(UserContext);
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
         <br></br>

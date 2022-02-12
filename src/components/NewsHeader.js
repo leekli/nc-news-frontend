@@ -6,16 +6,19 @@ import { UserContext } from "../contexts/User";
 
 const NewsHeader = () => {
   const navigate = useNavigate();
-  const { loggedInUser, isLoggedIn } = useContext(UserContext);
+  const { isLoggedIn } = useContext(UserContext);
 
-  if (isLoggedIn === true) {
+  const username = JSON.parse(localStorage.getItem("username"));
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
+
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
         <PageHeader
           className="site-page-header"
           onBack={() => navigate(-1)}
           title="📰 NC-News"
-          subTitle={`Hello, ${loggedInUser.username}!`}
+          subTitle={`Hello, ${username}!`}
         />
       </>
     );
@@ -24,7 +27,6 @@ const NewsHeader = () => {
       <>
         <PageHeader
           className="site-page-header"
-          onBack={() => navigate(-1)}
           title="📰 NC-News"
           subTitle={`Please log in`}
         />

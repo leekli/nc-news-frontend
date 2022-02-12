@@ -14,7 +14,9 @@ const CreateNewArticle = () => {
   const [newTopic, setNewTopic] = useState("");
   const [newBody, setNewBody] = useState("");
 
-  const { loggedInUser, isLoggedIn } = useContext(UserContext);
+  const { isLoggedIn } = useContext(UserContext);
+  const username = JSON.parse(localStorage.getItem("username"));
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   const { TextArea } = Input;
 
@@ -43,11 +45,11 @@ const CreateNewArticle = () => {
   };
 
   const handleSubmit = () => {
-    if (isLoggedIn === true) {
+    if (isLoggedIn === true || LoggedInCheck === true) {
       const newArticleDetail = {
         title: newTitle,
         topic: newTopic,
-        author: loggedInUser.username,
+        author: username,
         body: newBody,
       };
 
@@ -64,7 +66,7 @@ const CreateNewArticle = () => {
     }
   };
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
         <br></br>

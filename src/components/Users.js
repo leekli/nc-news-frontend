@@ -1,3 +1,4 @@
+import styles from "../css/Users.module.css";
 import { getUsers } from "../utils/api";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -10,10 +11,11 @@ import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const Users = () => {
-  const { isLoggedIn } = useContext(UserContext);
-
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { isLoggedIn } = useContext(UserContext);
+  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   let navigate = useNavigate();
 
@@ -28,7 +30,7 @@ const Users = () => {
     navigate(path);
   };
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn === true || LoggedInCheck === true) {
     return isLoading ? (
       <LoadingSpin />
     ) : (
@@ -44,33 +46,33 @@ const Users = () => {
         </Button>
         <br></br>
         <br></br>
-        <div>
+        <div className={styles.Users__div}>
           <h3>All users:</h3>
+          <List
+            itemLayout="horizontal"
+            dataSource={users}
+            renderItem={(user) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      style={{
+                        backgroundColor: "#031527",
+                      }}
+                      icon={<UserOutlined />}
+                    />
+                  }
+                  title={user.username}
+                  description={
+                    <Link key={user.username} to={`/users/${user.username}`}>
+                      Click for more info on {user.username}
+                    </Link>
+                  }
+                />
+              </List.Item>
+            )}
+          />
         </div>
-        <List
-          itemLayout="horizontal"
-          dataSource={users}
-          renderItem={(user) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    style={{
-                      backgroundColor: "#031527",
-                    }}
-                    icon={<UserOutlined />}
-                  />
-                }
-                title={user.username}
-                description={
-                  <Link key={user.username} to={`/users/${user.username}`}>
-                    Click for more info on {user.username}
-                  </Link>
-                }
-              />
-            </List.Item>
-          )}
-        />
       </>
     );
   } else {
