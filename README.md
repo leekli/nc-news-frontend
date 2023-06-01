@@ -1,22 +1,22 @@
-# **NorthCoders News - Front End 🗞**
+# **Lee's News - Front End App 🗞**
 
 ## **Portfolio Project - Front End**
 
 ---
 
-## **Built by:** Lee Kirkham (2022)
+## **Built by: Lee Kirkham (2022 & 2023)**
 
 ---
 
 # Front-End
 
 - **Front-End - Hosted version Link:** https://fe-nc-news-app.netlify.app/
-- **Front-End - Git-Hub Repo Link:** https://github.com/leekli/fe-nc-news
+- **Front-End - Git-Hub Repo Link:** https://github.com/leekli/nc-news-frontend
 
 # Back-End
 
-- **Back-End - Hosted version Link:** https://lee-nc-news.herokuapp.com/api
-- **Back-End - Git-Hub Repo Link:** https://github.com/leekli/nc-news
+- **Back-End - Hosted version Link:** https://lee-be-nc-news.onrender.com/api
+- **Back-End - Git-Hub Repo Link:** https://github.com/leekli/nc-news-backend
 
 # Description
 
@@ -24,7 +24,7 @@ This is a front-end React application which connects to the backend API & databa
 
 Built using React.js, and styled with the ['Ant Design'](https://ant.design/) React UI framework.
 
-There is a back-end API version of this app available at: https://lee-nc-news.herokuapp.com/
+There is a back-end API of this app available at: https://lee-be-nc-news.onrender.com/api
 
 # How to run this project locally
 
@@ -37,7 +37,7 @@ There is a back-end API version of this app available at: https://lee-nc-news.he
 - In your teminal CLI:
 
 ```
-$ git clone https://github.com/leekli/fe-nc-news.git
+$ git clone https://github.com/leekli/nc-news-frontend.git
 $ cd fe-nc-news
 ```
 
@@ -54,5 +54,5 @@ $ npm install
 - You can now run the app with the following command in the CLI, this will load the app in your Browser for you to use:
 
 ```
-$ npm start
+$ npm run start
 ```
