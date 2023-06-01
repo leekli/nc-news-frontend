@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Create a new Axios initalisation, using the 'newsApi' variable, base URL set to the backend
 const newsApi = axios.create({
   baseURL: "https://lee-be-nc-news.onrender.com/api",
 });

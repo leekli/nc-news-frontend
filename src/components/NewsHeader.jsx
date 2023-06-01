@@ -17,7 +17,7 @@ const NewsHeader = () => {
         <PageHeader
           className="site-page-header"
           onBack={() => navigate(-1)}
-          title="📰 NC-News"
+          title="📰 Lee-News"
           subTitle={`Hello, ${username}!`}
         />
       </>
@@ -27,7 +27,7 @@ const NewsHeader = () => {
       <>
         <PageHeader
           className="site-page-header"
-          title="📰 NC-News"
+          title="📰 Lee-News"
           subTitle={`Please log in`}
         />
       </>
