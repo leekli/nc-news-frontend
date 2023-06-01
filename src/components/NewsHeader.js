@@ -11,7 +11,7 @@ const NewsHeader = () => {
   const username = JSON.parse(localStorage.getItem("username"));
   const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
-  if (isLoggedIn === true || LoggedInCheck === true) {
+  if (isLoggedIn === true || JSON.parse(LoggedInCheck) === true) {
     return (
       <>
         <PageHeader
