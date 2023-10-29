@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  fe-app:
+    restart: on-failure
+    build: .
+    environment:
+      PORT: 5173
+    ports:
+      - '5173:5173'
+    command: npm run dev
+    volumes:
+      - '.:/nc-news-frontend'
+      - /nc-news-frontend/node_modules
+

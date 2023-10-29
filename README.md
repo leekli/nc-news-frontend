@@ -58,5 +58,13 @@ $ npm install
 - You can now run the app with the following command in the CLI, this will load the app in your Browser for you to use:
 
 ```
-$ npm run start
+$ npm run dev
+```
+
+## **Docker**
+
+- This repo can be ran in a `Docker` container, a `compose.yaml` & `Dockerfile` are included in the root folder. Run the following command:
+
+```
+$ docker compose up
 ```
