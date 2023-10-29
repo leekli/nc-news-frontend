@@ -42,7 +42,7 @@ There is a back-end API of this app available at: https://lee-be-nc-news.onrende
 
 ```
 $ git clone https://github.com/leekli/nc-news-frontend.git
-$ cd fe-nc-news
+$ cd nc-news-frontend
 ```
 
 ## Install dependencies:
